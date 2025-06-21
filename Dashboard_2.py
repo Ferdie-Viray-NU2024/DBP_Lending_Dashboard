@@ -1,7 +1,12 @@
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.figure_factory as ff
 import pandas as pd
+import folium
+from folium.plugins import MarkerCluster
+from branca.colormap import linear
+
 import os
 import warnings
 warnings.filterwarnings('ignore')
@@ -438,7 +443,7 @@ with st.expander("Loan Portfolio by Major Industry"):
         help="Click here to download CSV file"
     )
 
-import plotly.figure_factory as ff
+#import plotly.figure_factory as ff
 st.subheader("Loan Portfolio Summary")
 with st.expander("Summary Table",expanded=True):
     st.markdown(f"Monthly Loan Portfolio per Lending Unit- CY {formatted_year_string}")
@@ -845,9 +850,7 @@ with cl12:
 
 ########################### GeogrSpatial
 
-import folium
-from folium.plugins import MarkerCluster
-from branca.colormap import linear
+
 
 st.subheader("Geospatial distribution of Borrowers")
 
