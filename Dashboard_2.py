@@ -18,9 +18,11 @@ if fl is not None:
     df = pd.read_csv(filename)
 else:
     #os.chdir(r"C:\Users\ROG STRIX\PycharmProjects\PythonProject")
-    df = pd.read_excel("DATASET_PYTHON CLEANED.xlsx")
+    #df = pd.read_excel("DATASET_PYTHON CLEANED.xlsx")
+    df = pd.read_excel("DATASET_PYTHON CLEANED.xlsx", engine="openpyxl")
 
-df_yearend = pd.read_excel("DATASET_PYTHON CLEANED_YEAREND.xlsx")
+#df_yearend = pd.read_excel("DATASET_PYTHON CLEANED_YEAREND.xlsx")
+df_yearend = pd.read_excel("DATASET_PYTHON CLEANED_YEAREND.xlsx", engine="openpyxl")
 
 col1, col2 = st.columns((2))
 
