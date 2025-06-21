@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import pandas as pd
 import folium
+import matplotlib
 from folium.plugins import MarkerCluster
 from branca.colormap import linear
 
