@@ -15,7 +15,7 @@ fl = st.file_uploader(":file_folder: Upload a file", type=(["csv","xlsx","xls"])
 if fl is not None:
     filename = fl.name
     st.write(filename)
-    df = pd.read_csv(filename)
+    df = pd.read_excel(filename, engine="openpyxl")
 else:
     #os.chdir(r"C:\Users\ROG STRIX\PycharmProjects\PythonProject")
     #df = pd.read_excel("DATASET_PYTHON CLEANED.xlsx")
