@@ -12,7 +12,7 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-st.set_page_config(page_title="DLS Lending Dashboard", page_icon=":bar_chart:", layout="wide")
+st.set_page_config(page_title="DLS Lending Dashboard", page_icon=":bar_chart:", layout="wide",initial_sidebar_state="expanded")
 
 st.title(" :bar_chart: DLS Lending Dashboard")
 st.markdown('<style>div.block-container{padding-top:2rem;}</style>', unsafe_allow_html=True)
