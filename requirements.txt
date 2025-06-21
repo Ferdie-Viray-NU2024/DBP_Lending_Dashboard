@@ -3,5 +3,5 @@ pandas
 plotly
 folium
 branca
+matplotlib>=3.7
 openpyxl
-matplotlib
