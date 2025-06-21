@@ -17,7 +17,7 @@ if fl is not None:
     st.write(filename)
     df = pd.read_csv(filename)
 else:
-    os.chdir(r"C:\Users\ROG STRIX\PycharmProjects\PythonProject")
+    #os.chdir(r"C:\Users\ROG STRIX\PycharmProjects\PythonProject")
     df = pd.read_excel("DATASET_PYTHON CLEANED.xlsx")
 
 df_yearend = pd.read_excel("DATASET_PYTHON CLEANED_YEAREND.xlsx")
