@@ -110,6 +110,9 @@ df_timeseries.sort_values("SEQ", ascending=True, inplace=True)
 
 st.subheader("Time Series Analysis (December 2019 - March 2025)")
 
+df_timeseries["Sum of Sum of Loan Portfolio"] = pd.to_numeric(df_timeseries["Sum of Sum of Loan Portfolio"], errors='coerce')
+df_timeseries["NPL"] = pd.to_numeric(df_timeseries["NPL"], errors='coerce')
+
 df_timeseries["Formatted_Loan_Portfolio"] = df_timeseries["Sum of Sum of Loan Portfolio"].apply(lambda x: f"{x / 1e9:.1f}Bn")
 df_timeseries["Formatted_NPL"] = df_timeseries["NPL"].apply(lambda x: f"{x / 1e9:.1f}Bn")
 
@@ -1401,6 +1404,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
