@@ -29,7 +29,8 @@ df_yearend = pd.read_csv("DATASET_PYTHON CLEANED_YEAREND.csv", encoding='latin1'
 
 df["MONTH_YEAR"] = df["Month Name"].astype(str) + "-" + df["YEAR_ID"].astype(str)
 df.columns = df.columns.str.strip()
-print(df.columns.tolist())
+st.write(df.columns.tolist())
+
 ##############################################################################
 #col1, col2 = st.columns((2))
 #df["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
@@ -1398,6 +1399,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
