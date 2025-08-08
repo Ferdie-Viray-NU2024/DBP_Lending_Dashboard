@@ -27,9 +27,9 @@ else:
 
 df_yearend = pd.read_csv("DATASET_PYTHON CLEANED_YEAREND.csv", encoding='latin1', header=0)
 
-df["MONTH_YEAR"] = df["Month Name"].astype(str) + "-" + df["YEAR_ID"].astype(str)
+#df["MONTH_YEAR"] = df["Month Name"].astype(str) + "-" + df["YEAR_ID"].astype(str)
 df.columns = df.columns.str.strip()
-st.write(df.columns.tolist())
+#st.write(df.columns.tolist())
 
 ##############################################################################
 #col1, col2 = st.columns((2))
@@ -1399,6 +1399,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
