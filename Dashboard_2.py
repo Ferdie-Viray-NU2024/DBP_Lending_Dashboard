@@ -96,6 +96,10 @@ else:
     filtered_df = df3[df3["YEAR"].isin(year) & df3["Region"].isin(region) & df3["LG"].isin(lending_group)]
     filtered_df_cutoff = df3_ye[df3_ye["YEAR"].isin(year) & df3_ye["Region"].isin(region) & df3_ye["LG"].isin(lending_group)]
 
+
+filtered_df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(filtered_df["Sum of Sum of Loan Portfolio"], errors='coerce')
+filtered_df["NPL"] = pd.to_numeric(filtered_df["NPL"], errors='coerce')
+
 filtered_df.sort_values("MONTH_ID", ascending=True, inplace=True)
 filtered_df_cutoff.sort_values("MONTH_ID", ascending=True, inplace=True)
 
@@ -1410,6 +1414,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
