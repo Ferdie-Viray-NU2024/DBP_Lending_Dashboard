@@ -166,6 +166,9 @@ with st.expander("View data of time series", expanded=True):
     columns_to_keep = ["MONTH_YEAR", "Sum of Sum of Loan Portfolio", "NPL", "BORROWER_COUNT"]
     display_df = df_timeseries[columns_to_keep].copy()  # Use df_timeseries instead of linechart
 
+    display_df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(display_df["Sum of Sum of Loan Portfolio"], errors='coerce')
+    display_df["NPL"] = pd.to_numeric(display_df["NPL"], errors='coerce')
+
     def format_currency(value):
         try:
             value = float(value)
@@ -1404,6 +1407,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
