@@ -103,7 +103,7 @@ filtered_df_cutoff.sort_values("MONTH_ID", ascending=True, inplace=True)
 
 ####################### TIME SERIES ANALYSIS
 
-df["MONTH_YEAR"] = df["Month Name"] + "-" + df["YEAR_ID"]
+df["MONTH_YEAR"] = df["Month Name"].astype(str) + "-" + df["YEAR_ID"].astype(str)
 
 df_timeseries = df.groupby(by=["SEQ", "MONTH_YEAR"], as_index=False).agg({"Sum of Sum of Loan Portfolio": "sum", "NPL": "sum","BORROWER_COUNT":"sum"})
 df_timeseries.sort_values("SEQ", ascending=True, inplace=True)
@@ -1401,6 +1401,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
