@@ -30,23 +30,23 @@ else:
 #df_yearend = pd.read_excel("DATASET_PYTHON CLEANED_YEAREND.xlsx")
 df_yearend = pd.read_csv("DATASET_PYTHON CLEANED_YEAREND.csv", encoding='latin1', header=0)
 
-col1, col2 = st.columns((2))
+#col1, col2 = st.columns((2))
 
-df["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
-df_yearend["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
+#df["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
+#df_yearend["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
 
 #Getting the min and max year
-start_year = pd.to_datetime(df["CUTOFF_DATE"]).min()
-end_year = pd.to_datetime(df["CUTOFF_DATE"]).max()
+#start_year = pd.to_datetime(df["CUTOFF_DATE"]).min()
+#end_year = pd.to_datetime(df["CUTOFF_DATE"]).max()
 
-with col1:
-    date1 = pd.to_datetime(st.date_input("Start Year: ", start_year))
+#with col1:
+#    date1 = pd.to_datetime(st.date_input("Start Year: ", start_year))
 
-with col2:
-    date2 = pd.to_datetime(st.date_input("End Year: ", end_year))
+#with col2:
+#    date2 = pd.to_datetime(st.date_input("End Year: ", end_year))
 
-df = df[(df["CUTOFF_DATE"] >= date1) & (df["CUTOFF_DATE"] <= date2)].copy()
-df_yearend = df_yearend[(df["CUTOFF_DATE"] >= date1) & (df_yearend["CUTOFF_DATE"] <= date2)].copy()
+#df = df[(df["CUTOFF_DATE"] >= date1) & (df["CUTOFF_DATE"] <= date2)].copy()
+#df_yearend = df_yearend[(df["CUTOFF_DATE"] >= date1) & (df_yearend["CUTOFF_DATE"] <= date2)].copy()
 
 st.sidebar.header("Select a Filter: ")
 
@@ -1399,6 +1399,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
