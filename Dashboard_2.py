@@ -23,16 +23,13 @@ if fl is not None:
     st.write(filename)
     df = pd.read_csv(filename, encoding='latin1', header=0)
 else:
-    #os.chdir(r"C:\Users\ROG STRIX\PycharmProjects\PythonProject")
-    #df = pd.read_excel("DATASET_PYTHON CLEANED.xlsx")
     df = pd.read_csv("DATASET_PYTHON CLEANED.csv", encoding='latin1', header=0)
 
-#df_yearend = pd.read_excel("DATASET_PYTHON CLEANED_YEAREND.xlsx")
 df_yearend = pd.read_csv("DATASET_PYTHON CLEANED_YEAREND.csv", encoding='latin1', header=0)
 
 df["MONTH_YEAR"] = df["Month Name"].astype(str) + "-" + df["YEAR_ID"].astype(str)
 df.columns = df.columns.str.strip()
-
+print(df.columns.tolist())
 ##############################################################################
 #col1, col2 = st.columns((2))
 #df["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
@@ -1401,6 +1398,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
