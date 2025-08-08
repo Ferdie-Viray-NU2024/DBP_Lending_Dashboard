@@ -58,7 +58,7 @@ if not year:
     df2_ye = df_yearend.copy()
 else:
     df2 = df[df["YEAR_ID"].isin(year)]
-    df2_ye = df_yearend[df_yearend["YEAR"].isin(year)]
+    df2_ye = df_yearend[df_yearend["YEAR_ID"].isin(year)]
 
 #Create for Region
 region = st.sidebar.multiselect("Select Region/Location: ", df["Region"].unique())
@@ -78,7 +78,7 @@ if not year and not region and not lending_group:
     filtered_df_cutoff = df_yearend
 elif not region and not lending_group:
     filtered_df = df[df["YEAR_ID"].isin(year)]
-    filtered_df_cutoff = df_yearend[df_yearend["YEAR"].isin(year)]
+    filtered_df_cutoff = df_yearend[df_yearend["YEAR_ID"].isin(year)]
 elif not year and not lending_group:
     filtered_df = df[df["Region"].isin(region)]
     filtered_df_cutoff = df_yearend[df_yearend["Region"].isin(region)]
@@ -87,10 +87,10 @@ elif region and lending_group:
     filtered_df_cutoff = df3_ye[df_yearend["Region"].isin(region) & df3_ye["LG"].isin(lending_group)]
 elif year and lending_group:
     filtered_df = df3[df["YEAR_ID"].isin(year) & df3["LG"].isin(lending_group)]
-    filtered_df_cutoff = df3_ye[df_yearend["YEAR"].isin(year) & df3_ye["LG"].isin(lending_group)]
+    filtered_df_cutoff = df3_ye[df_yearend["YEAR_ID"].isin(year) & df3_ye["LG"].isin(lending_group)]
 elif year and region:
     filtered_df = df3[df["YEAR_ID"].isin(year) & df3["Region"].isin(region)]
-    filtered_df_cutoff = df3_ye[df_yearend["YEAR"].isin(year) & df3_ye["Region"].isin(region)]
+    filtered_df_cutoff = df3_ye[df_yearend["YEAR_ID"].isin(year) & df3_ye["Region"].isin(region)]
 elif lending_group:
     filtered_df = df3[df3["LG"].isin(lending_group)]
     filtered_df_cutoff = df3_ye[df3_ye["LG"].isin(lending_group)]
@@ -1399,6 +1399,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
