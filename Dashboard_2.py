@@ -208,6 +208,9 @@ col3, col4 = st.columns((2))
 category_df = filtered_df.groupby(by=["MONTH_ID", "MONTH_YEAR"], as_index=False).agg({"Sum of Sum of Loan Portfolio": "sum", "NPL": "sum"})
 category_df.sort_values("MONTH_ID", ascending=True, inplace=True)
 
+category_df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(category_df["Sum of Sum of Loan Portfolio"], errors='coerce')
+category_df["NPL"] = pd.to_numeric(category_df["NPL"], errors='coerce')
+
 category_df['OPB (in ₱Bn)'] = category_df["Sum of Sum of Loan Portfolio"] / 1e9
 category_df['NPL (in ₱Bn)'] = category_df["NPL"] / 1e9
 
@@ -1407,6 +1410,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
