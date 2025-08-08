@@ -21,14 +21,14 @@ fl = st.file_uploader(":file_folder: Upload a file", type=(["csv","xlsx","xls"])
 if fl is not None:
     filename = fl.name
     st.write(filename)
-    df = pd.read_excel(filename, engine="openpyxl")
+    df = pd.read_csv(filename, engine="openpyxl")
 else:
     #os.chdir(r"C:\Users\ROG STRIX\PycharmProjects\PythonProject")
     #df = pd.read_excel("DATASET_PYTHON CLEANED.xlsx")
-    df = pd.read_excel("DATASET_PYTHON CLEANED.xlsx", engine="openpyxl")
+    df = pd.read_csv("DATASET_PYTHON CLEANED.csv", engine="openpyxl")
 
 #df_yearend = pd.read_excel("DATASET_PYTHON CLEANED_YEAREND.xlsx")
-df_yearend = pd.read_excel("DATASET_PYTHON CLEANED_YEAREND.xlsx", engine="openpyxl")
+df_yearend = pd.read_csv("DATASET_PYTHON CLEANED_YEAREND.csv", engine="openpyxl")
 
 col1, col2 = st.columns((2))
 
@@ -1399,5 +1399,6 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
