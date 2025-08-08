@@ -33,6 +33,7 @@ df.columns = df.columns.str.strip()
 df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(df["Sum of Sum of Loan Portfolio"], errors='coerce')
 df["NPL"] = pd.to_numeric(df["NPL"], errors='coerce')
 df["BORROWER_COUNT"] = pd.to_numeric(df["BORROWER_COUNT"], errors='coerce')
+df["MONTH_ID"] = pd.to_numeric(df["MONTH_ID"], errors='coerce')
 
 ##############################################################################
 #col1, col2 = st.columns((2))
@@ -100,25 +101,15 @@ else:
     filtered_df_cutoff = df3_ye[df3_ye["YEAR"].isin(year) & df3_ye["Region"].isin(region) & df3_ye["LG"].isin(lending_group)]
 
 
-#filtered_df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(filtered_df["Sum of Sum of Loan Portfolio"], errors='coerce')
-#filtered_df["NPL"] = pd.to_numeric(filtered_df["NPL"], errors='coerce')
-
 filtered_df.sort_values("MONTH_ID", ascending=True, inplace=True)
 filtered_df_cutoff.sort_values("MONTH_ID", ascending=True, inplace=True)
 
 ####################### TIME SERIES ANALYSIS
 
-#df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(df["Sum of Sum of Loan Portfolio"], errors='coerce')
-#df["NPL"] = pd.to_numeric(df["NPL"], errors='coerce')
-#df["BORROWER_COUNT"] = pd.to_numeric(df["BORROWER_COUNT"], errors='coerce')
-
 df_timeseries = df.groupby(by=["SEQ", "MONTH_YEAR"], as_index=False).agg({"Sum of Sum of Loan Portfolio": "sum", "NPL": "sum","BORROWER_COUNT":"sum"})
 df_timeseries.sort_values("SEQ", ascending=True, inplace=True)
 
 st.subheader("Time Series Analysis (December 2019 - March 2025)")
-
-#df_timeseries["Sum of Sum of Loan Portfolio"] = pd.to_numeric(df_timeseries["Sum of Sum of Loan Portfolio"], errors='coerce')
-#df_timeseries["NPL"] = pd.to_numeric(df_timeseries["NPL"], errors='coerce')
 
 df_timeseries["Formatted_Loan_Portfolio"] = df_timeseries["Sum of Sum of Loan Portfolio"].apply(lambda x: f"{x / 1e9:.1f}Bn")
 df_timeseries["Formatted_NPL"] = df_timeseries["NPL"].apply(lambda x: f"{x / 1e9:.1f}Bn")
@@ -172,9 +163,6 @@ st.plotly_chart(fig2, use_container_width=True)
 with st.expander("View data of time series", expanded=True):
     columns_to_keep = ["MONTH_YEAR", "Sum of Sum of Loan Portfolio", "NPL", "BORROWER_COUNT"]
     display_df = df_timeseries[columns_to_keep].copy()  # Use df_timeseries instead of linechart
-
-    #display_df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(display_df["Sum of Sum of Loan Portfolio"], errors='coerce')
-    #display_df["NPL"] = pd.to_numeric(display_df["NPL"], errors='coerce')
 
     def format_currency(value):
         try:
@@ -1417,6 +1405,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
