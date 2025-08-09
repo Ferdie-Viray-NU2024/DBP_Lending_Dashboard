@@ -480,8 +480,11 @@ with st.expander("Summary Table",expanded=True):
         .background_gradient(cmap="Blues")
     st.write(styled_table)
 
-
+    
     st.markdown(f"Top 20 Borrowers with the Highest OPB - CY {formatted_year_string}")
+
+    st.write("Column names:", df_filtered.columns.tolist())
+    
     filtered_df_cutoff.columns = filtered_df_cutoff.columns.str.strip()
     df_filtered = filtered_df_cutoff[filtered_df_cutoff['MONTH_ID'] == 12].copy()
     unique_df = df_filtered.drop_duplicates(subset=[
@@ -1422,6 +1425,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
