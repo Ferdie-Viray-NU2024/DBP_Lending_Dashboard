@@ -22,7 +22,7 @@ if fl is not None:
     st.write("Uploaded File Name: ", fl.name)
     if fl.name.endswith(".csv"):
         df = pd.read_csv(fl, encoding='latin1', header=0)
-    else::
+    else:
         df = pd.read_excel(fl, engine="openpyxl")
 
     st.write("Data preview:")
@@ -1430,6 +1430,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
