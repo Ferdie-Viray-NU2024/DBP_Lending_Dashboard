@@ -35,6 +35,11 @@ df["NPL"] = pd.to_numeric(df["NPL"], errors='coerce')
 df["BORROWER_COUNT"] = pd.to_numeric(df["BORROWER_COUNT"], errors='coerce')
 df["MONTH_ID"] = pd.to_numeric(df["MONTH_ID"], errors='coerce')
 
+df_yearend["Sum of Sum of Loan Portfolio"] = pd.to_numeric(df_yearend["Sum of Sum of Loan Portfolio"], errors='coerce')
+df_yearend["NPA"] = pd.to_numeric(df_yearend["NPA"], errors='coerce')
+df_yearend["BORROWER_COUNT"] = pd.to_numeric(df_yearend["BORROWER_COUNT"], errors='coerce')
+df_yearend["MONTH_ID"] = pd.to_numeric(df_yearend["MONTH_ID"], errors='coerce')
+
 ##############################################################################
 #col1, col2 = st.columns((2))
 #df["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
@@ -104,7 +109,7 @@ filtered_df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(filtered_df["Sum of 
 filtered_df["NPL"] = pd.to_numeric(filtered_df["NPL"], errors='coerce')
 
 filtered_df_cutoff["Sum of Sum of Loan Portfolio"] = pd.to_numeric(filtered_df_cutoff["Sum of Sum of Loan Portfolio"], errors='coerce')
-filtered_df_cutoff["NPL"] = pd.to_numeric(filtered_df_cutoff["NPL"], errors='coerce')
+filtered_df_cutoff["NPA"] = pd.to_numeric(filtered_df_cutoff["NPA"], errors='coerce')
 
 filtered_df.sort_values("MONTH_ID", ascending=True, inplace=True)
 filtered_df_cutoff.sort_values("MONTH_ID", ascending=True, inplace=True)
@@ -1412,6 +1417,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
