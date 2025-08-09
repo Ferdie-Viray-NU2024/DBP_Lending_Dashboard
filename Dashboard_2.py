@@ -19,9 +19,14 @@ st.markdown('<style>div.block-container{padding-top:2rem;}</style>', unsafe_allo
 
 fl = st.file_uploader(":file_folder: Upload a file", type=(["csv","xlsx","xls"]))
 if fl is not None:
-    filename = fl.name
-    st.write(filename)
-    df = pd.read_csv(filename, encoding='latin1', header=0)
+    st.write("Uploaded File Name: ", fl.name)
+    if fl.name.endswith(".csv"):
+        df = pd.read_csv(fl, encoding='latin1', header=0)
+    else::
+        df = pd.read_excel(fl, engine="openpyxl")
+
+    st.write("Data preview:")
+    st.dataframe(df)
 else:
     df = pd.read_csv("DATASET_PYTHON CLEANED.csv", encoding='latin1', header=0)
 
@@ -1425,6 +1430,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
