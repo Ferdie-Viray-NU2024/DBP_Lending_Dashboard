@@ -30,6 +30,8 @@ df_yearend = pd.read_csv("DATASET_PYTHON CLEANED_YEAREND.csv", encoding='latin1'
 
 df.columns = df.columns.str.strip()
 
+st.write(df_yearend.columns.tolist())
+
 df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(df["Sum of Sum of Loan Portfolio"], errors='coerce')
 df["NPL"] = pd.to_numeric(df["NPL"], errors='coerce')
 df["BORROWER_COUNT"] = pd.to_numeric(df["BORROWER_COUNT"], errors='coerce')
@@ -1417,6 +1419,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
