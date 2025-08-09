@@ -19,7 +19,7 @@ st.markdown('<style>div.block-container{padding-top:2rem;}</style>', unsafe_allo
 
 fl = st.file_uploader(":file_folder: Upload a file", type=(["csv","xlsx","xls"]))
 if fl is not None:
-    st.write("Uploaded File Name: ", fl.name)
+    #st.write("Uploaded File Name: ", fl.name)
     if fl.name.endswith(".csv"):
         df = pd.read_csv(fl, encoding='latin1', header=0)
     else:
@@ -489,9 +489,6 @@ with st.expander("Summary Table",expanded=True):
     st.markdown(f"Top 20 Borrowers with the Highest OPB - CY {formatted_year_string}")   
     filtered_df_cutoff.columns = filtered_df_cutoff.columns.str.strip()
     df_filtered = filtered_df_cutoff[filtered_df_cutoff['MONTH_ID'] == 12].copy()
-
-    st.write("Column names:", df_filtered.columns.tolist())
-
     unique_df = df_filtered.drop_duplicates(subset=[
         'YEAR_ID', 'BORROWER_CODE_NAME', 'LENDING UNIT', 'LG', 'Major Industry',
         'Account/Loan Type', 'Location', 'Type of Facility', 'Collateral Type',
@@ -1430,6 +1427,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
