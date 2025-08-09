@@ -105,8 +105,8 @@ elif lending_group:
     filtered_df = df3[df3["LG"].isin(lending_group)]
     filtered_df_cutoff = df3_ye[df3_ye["LG"].isin(lending_group)]
 else:
-    filtered_df = df3[df3["YEAR"].isin(year) & df3["Region"].isin(region) & df3["LG"].isin(lending_group)]
-    filtered_df_cutoff = df3_ye[df3_ye["YEAR"].isin(year) & df3_ye["Region"].isin(region) & df3_ye["LG"].isin(lending_group)]
+    filtered_df = df3[df3["YEAR_ID"].isin(year) & df3["Region"].isin(region) & df3["LG"].isin(lending_group)]
+    filtered_df_cutoff = df3_ye[df3_ye["YEAR_ID"].isin(year) & df3_ye["Region"].isin(region) & df3_ye["LG"].isin(lending_group)]
 
 filtered_df["Sum of Sum of Loan Portfolio"] = pd.to_numeric(filtered_df["Sum of Sum of Loan Portfolio"], errors='coerce')
 filtered_df["NPL"] = pd.to_numeric(filtered_df["NPL"], errors='coerce')
@@ -316,7 +316,7 @@ filtered_df_cutoff["Custom Text"] = filtered_df_cutoff["Region"] + "<br>" + filt
 
 fig3 = px.treemap(
     filtered_df_cutoff,
-    path=["YEAR", "Region"],
+    path=["YEAR_ID", "Region"],
     values="Sum of Sum of Loan Portfolio",
     hover_data={"Sum of Sum of Loan Portfolio": ":,.0f"},
     color="Region",
@@ -660,7 +660,7 @@ with cl7:
 
     fig7 = px.treemap(
         filtered_df_cutoff,
-        path=["YEAR", "Type of Facility"],
+        path=["YEAR_ID", "Type of Facility"],
         values="Sum of Sum of Loan Portfolio",
         hover_data={"Sum of Sum of Loan Portfolio": ":,.0f"},
         color="Type of Facility",
@@ -682,7 +682,7 @@ with cl8:
 
     fig8 = px.treemap(
         filtered_df_cutoff,
-        path=["YEAR", "Loan Term"],
+        path=["YEAR_ID", "Loan Term"],
         values="Sum of Sum of Loan Portfolio",
         hover_data={"Sum of Sum of Loan Portfolio": ":,.0f"},
         color="Loan Term",
@@ -1289,7 +1289,7 @@ filtered_df_cutoff["Custom Text"] = filtered_df_cutoff["Region"] + "<br>" + filt
 
 fig17 = px.treemap(
     filtered_df_cutoff,
-    path=["YEAR", "Region"],
+    path=["YEAR_ID", "Region"],
     values="NPA",
     hover_data={"NPA": ":,.0f"},
     color="Region",
@@ -1312,7 +1312,7 @@ with c19:
 
     fig19 = px.treemap(
         filtered_df_cutoff,
-        path=["YEAR", "Type of Facility"],
+        path=["YEAR_ID", "Type of Facility"],
         values="NPA",
         hover_data={"NPA": ":,.0f"},
         color="Type of Facility",
@@ -1334,7 +1334,7 @@ with c20:
 
     fig20 = px.treemap(
         filtered_df_cutoff,
-        path=["YEAR", "Account Class"],
+        path=["YEAR_ID", "Account Class"],
         values="NPA",
         hover_data={"NPA": ":,.0f"},
         color="Account Class",
@@ -1420,6 +1420,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
