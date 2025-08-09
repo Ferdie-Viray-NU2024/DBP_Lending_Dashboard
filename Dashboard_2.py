@@ -488,15 +488,15 @@ with st.expander("Summary Table",expanded=True):
     st.write("Column names:", df_filtered.columns.tolist())
 
     unique_df = df_filtered.drop_duplicates(subset=[
-        'YEAR', 'BORROWER_CODE_NAME', 'LENDING UNIT', 'LG', 'Major Industry',
+        'YEAR_ID', 'BORROWER_CODE_NAME', 'LENDING UNIT', 'LG', 'Major Industry',
         'Account/Loan Type', 'Location', 'Type of Facility', 'Collateral Type',
         'Loan Status', 'Area Code', 'Sum of Sum of Loan Portfolio'])
-    unique_df['TempRank'] = unique_df.groupby('YEAR')['Sum of Sum of Loan Portfolio']\
+    unique_df['TempRank'] = unique_df.groupby('YEAR_ID')['Sum of Sum of Loan Portfolio']\
                                      .rank(method='first', ascending=False)
     top20 = unique_df[unique_df['TempRank'] <= 20].copy()
     top20['LoanPortfolioNumeric'] = top20['Sum of Sum of Loan Portfolio']
-    top20 = top20.sort_values(['YEAR', 'LoanPortfolioNumeric'], ascending=False)
-    top20['Rank'] = top20.groupby('YEAR')['LoanPortfolioNumeric'].rank(method='first', ascending=False).astype(int)
+    top20 = top20.sort_values(['YEAR_ID', 'LoanPortfolioNumeric'], ascending=False)
+    top20['Rank'] = top20.groupby('YEAR_ID')['LoanPortfolioNumeric'].rank(method='first', ascending=False).astype(int)
     top20['Sum of Sum of Loan Portfolio'] = top20['LoanPortfolioNumeric'].apply(lambda x: f"₱{x:,.2f}")
     final_df = top20[[
         'Rank', 'BORROWER_CODE_NAME', 'Sum of Sum of Loan Portfolio', 'LENDING UNIT', 'LG', 'Major Industry',
@@ -1425,6 +1425,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
