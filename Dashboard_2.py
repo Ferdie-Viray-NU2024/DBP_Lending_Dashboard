@@ -45,8 +45,10 @@ df_yearend["MONTH_ID"] = pd.to_numeric(df_yearend["MONTH_ID"], errors='coerce')
 
 ##############################################################################
 #col1, col2 = st.columns((2))
-#df["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
-#df_yearend["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
+
+df["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
+df_yearend["CUTOFF_DATE"] = pd.to_datetime(df["CUTOFF_DATE"])
+
 #Getting the min and max year
 #start_year = pd.to_datetime(df["CUTOFF_DATE"]).min()
 #end_year = pd.to_datetime(df["CUTOFF_DATE"]).max()
@@ -1420,6 +1422,7 @@ with cl22:
             mime="text/csv",
             help="Click here to download the CSV file"
         )
+
 
 
 
