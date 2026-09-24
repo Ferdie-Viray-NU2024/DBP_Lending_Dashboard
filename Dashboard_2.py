@@ -517,13 +517,13 @@ with col5:
     st.subheader(f"Loan Portfolio by Government/Private - CY {formatted_year_string}")
     fig4 = px.pie(filtered_df_cutoff, values="Sum of Sum of Loan Portfolio", names="Govt Priv", hole=0.5)
     fig4.update_traces(text=filtered_df_cutoff["Govt Priv"], textposition="outside")
-    st.plotly_chart(fig4, use_container_width=True, height=200)
+    st.plotly_chart(fig4, use_container_width=True)
 
 with col6:
     st.subheader(f"Loan Portfolio by Funding - CY {formatted_year_string}")
     fig5 = px.pie(filtered_df_cutoff, values="Sum of Sum of Loan Portfolio", names="Source", hole=0.5)
     fig5.update_traces(text=filtered_df_cutoff["Source"], textposition="outside")
-    st.plotly_chart(fig5, use_container_width=True, height=200)
+    st.plotly_chart(fig5, use_container_width=True)
 
 cl5,cl6 = st.columns((2))
 
@@ -924,13 +924,13 @@ with col11:
     st.subheader(f"NPL by Lending Group - CY {formatted_year_string}")
     fig11 = px.pie(filtered_df_cutoff, values="NPA", names="LG", hole = 0.5)
     fig11.update_traces(text = filtered_df_cutoff["LG"], textposition="outside")
-    st.plotly_chart(fig11, use_container_width=True, height=200)
+    st.plotly_chart(fig11, use_container_width=True)
 
 with col12:
     st.subheader(f"NPL by Account Type - CY {formatted_year_string}")
     fig12 = px.pie(filtered_df_cutoff, values="NPA", names="Account/Loan Type", hole = 0.5)
     fig12.update_traces(text = filtered_df_cutoff["Account/Loan Type"], textposition="outside")
-    st.plotly_chart(fig12, use_container_width=True, height=200)
+    st.plotly_chart(fig12, use_container_width=True)
 
 cl11, cl12 = st.columns(2)
 
