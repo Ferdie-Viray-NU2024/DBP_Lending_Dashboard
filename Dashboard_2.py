@@ -260,7 +260,7 @@ with col4:
     st.subheader(f"Loan Portfolio by Lending Group - CY {formatted_year_string}")
     fig = px.pie(filtered_df_cutoff, values="Sum of Sum of Loan Portfolio", names="LG", hole = 0.5)
     fig.update_traces(text = filtered_df_cutoff["LG"], textposition="outside")
-    st.plotly_chart(fig, use_container_width=True, height=200)
+    st.plotly_chart(fig, use_container_width=True)
 
 
 cl1, cl2 = st.columns((2))
