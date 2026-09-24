@@ -253,7 +253,7 @@ with col3:
                          "MONTH_YEAR": "Month-Year"},
                  template="seaborn")
     fig.update_layout(barmode='group')
-    st.plotly_chart(fig, use_container_width=True, height=200)
+    st.plotly_chart(fig, use_container_width=True)
 
 
 with col4:
