@@ -28,9 +28,9 @@ if fl is not None:
     st.write("Data preview:")
     st.dataframe(df)
 else:
-    df = pd.read_csv("DATASET_PYTHON CLEANED.csv", encoding='latin1', header=0)
+    df = pd.read_csv("DLS_LENDING_DATA_CLEANED.csv", encoding='latin1', header=0)
 
-df_yearend = pd.read_csv("DATASET_PYTHON CLEANED_YEAREND.csv", encoding='latin1', header=0)
+df_yearend = pd.read_csv("DLS_LENDING_DATA_CLEANED_YEAREND.csv", encoding='latin1', header=0)
 
 
 df.columns = df.columns.str.strip()
