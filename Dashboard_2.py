@@ -70,7 +70,7 @@ st.sidebar.header("Select a Filter: ")
 #Create for Year
 year = st.sidebar.multiselect("Select Calendar Year: ", df["YEAR_ID"].unique())
 if not year:
-    year = [2024.0]
+    year = [2025.0]
     df2 = df.copy()
     df2_ye = df_yearend.copy()
 else:
@@ -129,7 +129,7 @@ filtered_df_cutoff.sort_values("MONTH_ID", ascending=True, inplace=True)
 df_timeseries = df.groupby(by=["SEQ", "MONTH_YEAR"], as_index=False).agg({"Sum of Sum of Loan Portfolio": "sum", "NPL": "sum","BORROWER_COUNT":"sum"})
 df_timeseries.sort_values("SEQ", ascending=True, inplace=True)
 
-st.subheader("Time Series Analysis (December 2019 - March 2025)")
+st.subheader("Time Series Analysis (December 2019 - December 2025)")
 
 df_timeseries["Formatted_Loan_Portfolio"] = df_timeseries["Sum of Sum of Loan Portfolio"].apply(lambda x: f"{x / 1e9:.1f}Bn")
 df_timeseries["Formatted_NPL"] = df_timeseries["NPL"].apply(lambda x: f"{x / 1e9:.1f}Bn")
