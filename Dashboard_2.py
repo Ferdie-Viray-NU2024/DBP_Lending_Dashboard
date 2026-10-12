@@ -220,8 +220,10 @@ with st.expander("View data of time series", expanded=True):
 
 ##### ADDED INSIGHTS ##############
 st.subheader("Insights and Decision Support")
-st.write("The dashboard presents monthly loan portfolio and NPL trends over the six-year period. The displayed lines show the portfolio generally increasing, with a pronounced increase in the NPL line toward the end of the period.")
 
+st.write("The dashboard presents monthly loan portfolio and NPL trends over the six-year period. The displayed lines show the portfolio generally increasing, with a pronounced increase in the NPL line toward the end of the period.
+Portfolio growth should be assessed alongside asset quality. Growth in the loan portfolio is not necessarily an improvement in performance if NPL also rises. The exact drivers and timing of changes need to be verified using the underlying data.
+")
 #########################
 
 col3, col4 = st.columns((2))
