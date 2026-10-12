@@ -218,6 +218,12 @@ with st.expander("View data of time series", expanded=True):
         help='Click here to download the CSV file'
     )
 
+##### ADDED INSIGHTS ##############
+st.subheader("Insights and Decision Support")
+st.write("The dashboard presents monthly loan portfolio and NPL trends over the six-year period. The displayed lines show the portfolio generally increasing, with a pronounced increase in the NPL line toward the end of the period.")
+
+#########################
+
 col3, col4 = st.columns((2))
 
 category_df = filtered_df.groupby(by=["MONTH_ID", "MONTH_YEAR"], as_index=False).agg({"Sum of Sum of Loan Portfolio": "sum", "NPL": "sum"})
