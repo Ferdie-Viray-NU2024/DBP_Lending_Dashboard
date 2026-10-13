@@ -218,10 +218,215 @@ with st.expander("View data of time series", expanded=True):
         help='Click here to download the CSV file'
     )
 
-##### ADDED INSIGHTS ##############
+##### DYNAMIC INSIGHTS AND DECISION SUPPORT ##############
 st.subheader("Insights and Decision Support")
 
-st.write("The dashboard presents monthly loan portfolio and NPL trends over the six-year period. The displayed lines show the portfolio generally increasing, with a pronounced increase in the NPL line toward the end of the period.")
+# These narratives use the same filtered data as the dashboard.
+# Monthly trend data comes from filtered_df; year-end segment data
+# comes from filtered_df_cutoff.
+
+if filtered_df.empty:
+    st.info("No records match the selected filters. Please adjust your selections.")
+else:
+    insight_monthly = (
+        filtered_df.groupby(["MONTH_ID", "MONTH_YEAR"], as_index=False)
+        .agg({
+            "Sum of Sum of Loan Portfolio": "sum",
+            "NPL": "sum"
+        })
+        .sort_values("MONTH_ID")
+    )
+
+    for col in ["Sum of Sum of Loan Portfolio", "NPL"]:
+        insight_monthly[col] = pd.to_numeric(
+            insight_monthly[col], errors="coerce"
+        )
+
+    insight_monthly = insight_monthly.dropna(
+        subset=["Sum of Sum of Loan Portfolio", "NPL"]
+    )
+
+    if insight_monthly.empty:
+        st.info("There is not enough valid monthly data to generate insights.")
+    else:
+        latest = insight_monthly.iloc[-1]
+        latest_period = str(latest["MONTH_YEAR"])
+        latest_opb = float(latest["Sum of Sum of Loan Portfolio"])
+        latest_npl = float(latest["NPL"])
+
+        npl_rate = (
+            latest_npl / latest_opb * 100
+            if latest_opb > 0 else None
+        )
+
+        opb_change = None
+        npl_change = None
+
+        if len(insight_monthly) >= 2:
+            previous = insight_monthly.iloc[-2]
+            previous_opb = float(previous["Sum of Sum of Loan Portfolio"])
+            previous_npl = float(previous["NPL"])
+
+            if previous_opb != 0:
+                opb_change = (
+                    (latest_opb - previous_opb) / abs(previous_opb) * 100
+                )
+            if previous_npl != 0:
+                npl_change = (
+                    (latest_npl - previous_npl) / abs(previous_npl) * 100
+                )
+
+        metric1, metric2, metric3 = st.columns(3)
+
+        metric1.metric(
+            "Latest Portfolio Balance",
+            f"₱{latest_opb / 1e9:,.2f}B",
+            delta=f"{opb_change:+.2f}%" if opb_change is not None else None
+        )
+        metric2.metric(
+            "Latest NPL Balance",
+            f"₱{latest_npl / 1e9:,.2f}B",
+            delta=f"{npl_change:+.2f}%" if npl_change is not None else None,
+            delta_color="inverse"
+        )
+        metric3.metric(
+            "Latest NPL-to-OPB Ratio",
+            f"{npl_rate:.2f}%" if npl_rate is not None else "N/A"
+        )
+
+        st.caption(
+            f"Reporting period: {latest_period}. "
+            "Changes compare the latest available month with the preceding available month "
+            "under the current filters."
+        )
+
+        st.markdown("#### Portfolio Trend Insight")
+        if opb_change is None:
+            st.write(
+                "There is insufficient monthly history under the selected filters "
+                "to calculate a portfolio change."
+            )
+        elif opb_change > 0:
+            st.write(
+                f"The portfolio increased by **{opb_change:.2f}%** from the previous "
+                "available reporting month. Review which lending groups, regions, "
+                "and industries contributed most to the increase."
+            )
+        elif opb_change < 0:
+            st.write(
+                f"The portfolio decreased by **{abs(opb_change):.2f}%** from the previous "
+                "available reporting month. Review whether the movement reflects "
+                "repayments, maturities, reclassification, or changes in reporting coverage."
+            )
+        else:
+            st.write(
+                "The portfolio balance was unchanged from the previous available reporting month."
+            )
+
+        st.markdown("#### NPL Trend Insight")
+        if npl_change is None:
+            st.write(
+                "There is insufficient monthly history, or the previous NPL balance is zero, "
+                "to calculate a meaningful percentage change."
+            )
+        elif npl_change > 0:
+            st.write(
+                f"NPL increased by **{npl_change:.2f}%** from the previous available reporting "
+                "month. This movement warrants review of the affected accounts and segments; "
+                "it does not by itself establish the cause of deterioration."
+            )
+        elif npl_change < 0:
+            st.write(
+                f"NPL decreased by **{abs(npl_change):.2f}%** from the previous available "
+                "reporting month. Check whether the decrease reflects repayments, recoveries, "
+                "write-offs, reclassification, or other portfolio movements."
+            )
+        else:
+            st.write("NPL was unchanged from the previous available reporting month.")
+
+        st.markdown("#### Management Recommendations")
+        recommendations = []
+
+        if opb_change is not None and npl_change is not None:
+            if opb_change > 0 and npl_change > 0:
+                recommendations.append(
+                    "Portfolio and NPL both increased. Review the accounts and segments "
+                    "contributing to NPL growth and assess the quality of portfolio expansion."
+                )
+            elif opb_change > 0 and npl_change < 0:
+                recommendations.append(
+                    "Portfolio increased while NPL decreased. Monitor whether this pattern "
+                    "continues and validate it against repayments, recoveries, and reclassifications."
+                )
+            elif opb_change < 0 and npl_change > 0:
+                recommendations.append(
+                    "Portfolio decreased while NPL increased. Review the composition of the "
+                    "remaining portfolio and investigate accounts with worsening repayment status."
+                )
+            else:
+                recommendations.append(
+                    "Review segment-level results to determine which areas contributed to the "
+                    "observed portfolio and NPL movements."
+                )
+        else:
+            recommendations.append(
+                "Select a period with at least two valid monthly observations to enable "
+                "month-to-month trend comparisons."
+            )
+
+        # Identify the largest displayed NPL categories for the selected filters.
+        if not filtered_df_cutoff.empty and "NPA" in filtered_df_cutoff.columns:
+            cutoff_insight = filtered_df_cutoff.copy()
+            cutoff_insight["NPA"] = pd.to_numeric(
+                cutoff_insight["NPA"], errors="coerce"
+            )
+            cutoff_insight = cutoff_insight.dropna(subset=["NPA"])
+
+            if not cutoff_insight.empty and cutoff_insight["NPA"].sum() > 0:
+                if "LG" in cutoff_insight.columns:
+                    by_group = (
+                        cutoff_insight.groupby("LG", dropna=True)["NPA"]
+                        .sum().sort_values(ascending=False)
+                    )
+                    if not by_group.empty:
+                        group_name = str(by_group.index[0])
+                        group_amount = float(by_group.iloc[0])
+                        group_share = group_amount / cutoff_insight["NPA"].sum() * 100
+                        st.write(
+                            f"- **Lending-group concentration:** {group_name} has the "
+                            f"largest displayed NPL amount (₱{group_amount / 1e9:,.2f}B, "
+                            f"or {group_share:.2f}% of NPL in the filtered year-end data). "
+                            "Compare this with the group's OPB and NPL rate before judging "
+                            "relative performance."
+                        )
+
+                if "Major Industry" in cutoff_insight.columns:
+                    by_industry = (
+                        cutoff_insight.groupby("Major Industry", dropna=True)["NPA"]
+                        .sum().sort_values(ascending=False)
+                    )
+                    if not by_industry.empty:
+                        industry_name = str(by_industry.index[0])
+                        industry_amount = float(by_industry.iloc[0])
+                        industry_share = (
+                            industry_amount / cutoff_insight["NPA"].sum() * 100
+                        )
+                        st.write(
+                            f"- **Industry concentration:** {industry_name} has the "
+                            f"largest displayed NPL amount (₱{industry_amount / 1e9:,.2f}B, "
+                            f"or {industry_share:.2f}% of NPL in the filtered year-end data). "
+                            "Review the underlying accounts and compare the industry's NPL "
+                            "rate with its portfolio share."
+                        )
+
+        for item in recommendations:
+            st.write(f"- {item}")
+
+        st.caption(
+            "These are descriptive, rule-based review prompts—not causal findings, "
+            "credit decisions, or official risk alerts. Confirm results against DBP's "
+            "approved reporting definitions and thresholds."
+        )
 #########################
 
 col3, col4 = st.columns((2))
