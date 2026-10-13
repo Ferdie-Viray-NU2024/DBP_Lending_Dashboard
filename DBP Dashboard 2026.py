@@ -60,32 +60,36 @@ def render_chart_insight(fig, section_name="Chart"):
             records.extend((str(k), float(v)) for k, v in zip(labels, vals) if v is not None and pd.notna(v))
         elif xs and ys and len(xs) == len(ys):
             records.extend((str(k), float(v)) for k, v in zip(xs, ys) if v is not None and pd.notna(v) and isinstance(v, (int, float)))
+    # Do not show a generic fallback statement when the chart has no extractable values.
+    # This commonly occurs for maps, tables, or Plotly traces with non-numeric axes.
+    if not records:
+        return
+
+    # Aggregate repeated category labels where a chart has multiple traces.
+    agg = {}
+    for label, value in records:
+        agg[label] = agg.get(label, 0.0) + value
+    ranked = sorted(agg.items(), key=lambda item: item[1], reverse=True)
+    if not ranked:
+        return
+    top_label, top_value = ranked[0]
+    total = sum(v for _, v in ranked)
+    share = (top_value / total * 100) if total > 0 else None
+    if len(ranked) > 1:
+        second_label, second_value = ranked[1]
+        comparison = f"The next-largest displayed category is **{second_label}** ({second_value:,.2f})."
+    else:
+        comparison = "Only one category/value is available in the displayed chart."
+
     with st.container(border=True):
         st.markdown('<div class="insight-heading">✦ Insights and Decision Support</div>', unsafe_allow_html=True)
-        if not records:
-            st.markdown('<div class="insight-subheading">Interpretation</div>', unsafe_allow_html=True)
-            st.write(f"Review the pattern shown in **{section_name}** alongside the related table and the selected reporting period. Check whether the observed pattern is consistent with the corresponding OPB or NPL view before drawing conclusions.")
+        st.markdown('<div class="insight-subheading">What the chart shows</div>', unsafe_allow_html=True)
+        if share is not None and len(ranked) > 1:
+            st.write(f"**{top_label}** has the largest displayed value at **{top_value:,.2f}** (about **{share:.1f}%** of the values represented in this chart). {comparison}")
         else:
-            # Aggregate repeated category labels where a chart has multiple traces.
-            agg = {}
-            for label, value in records:
-                agg[label] = agg.get(label, 0.0) + value
-            ranked = sorted(agg.items(), key=lambda item: item[1], reverse=True)
-            top_label, top_value = ranked[0]
-            total = sum(v for _, v in ranked)
-            share = (top_value / total * 100) if total > 0 else None
-            if len(ranked) > 1:
-                second_label, second_value = ranked[1]
-                comparison = f"The next-largest displayed category is **{second_label}** ({second_value:,.2f})."
-            else:
-                comparison = "Only one category/value is available in the displayed chart."
-            st.markdown('<div class="insight-subheading">What the chart shows</div>', unsafe_allow_html=True)
-            if share is not None and len(ranked) > 1:
-                st.write(f"**{top_label}** has the largest displayed value at **{top_value:,.2f}** (about **{share:.1f}%** of the values represented in this chart). {comparison}")
-            else:
-                st.write(f"The largest displayed value is **{top_label}** at **{top_value:,.2f}**. {comparison}")
-            st.markdown('<div class="insight-subheading">Decision support</div>', unsafe_allow_html=True)
-            st.write("Prioritize reviewing the leading category and its movement over time. For portfolio charts, compare the category’s OPB with its corresponding NPL balance or NPL rate before deciding whether concentration, growth, or credit quality warrants further review.")
+            st.write(f"The largest displayed value is **{top_label}** at **{top_value:,.2f}**. {comparison}")
+        st.markdown('<div class="insight-subheading">Decision support</div>', unsafe_allow_html=True)
+        st.write("Prioritize reviewing the leading category and its movement over time. For portfolio charts, compare the category’s OPB with its corresponding NPL balance or NPL rate before deciding whether concentration, growth, or credit quality warrants further review.")
         st.markdown('<div class="insight-footnote">Automated descriptive insight based on the values represented in this chart. It identifies patterns for review and does not establish causation or replace credit and management judgment.</div>', unsafe_allow_html=True)
 
 fl = st.file_uploader(":file_folder: Upload a file", type=(["csv","xlsx","xls"]))
